@@ -4,18 +4,19 @@ complete <- function (directory, id= 1:332) {
   
   #create a list to access the files regardless the current working dir
   full_dest <- paste(base_dir, directory, sep="/")
-  lf <- list.files(full_dest, full.names=TRUE)   
   
-  # read all files at once 
-  data_frame <- lapply(lf, read.csv)
+  # creates a list of files that matches the id 
+  lf <- list.files(full_dest, full.names=TRUE)[id]
   
-  # convert the dataframe to a more usefull format
-  # use the id to limit which ID will be present on s
-  s <- do.call(rbind, data_frame[id])
+  # load data in a data_frame from the csv file
+  data_frame <- data.frame()
+  for (i in 1:length(id)) {
+    data_frame <- rbind (data_frame, read.csv(lf[i]))
+  }
   
   # uses complete cases to remove NAs
-  ok <- complete.cases(s)
-  c_cases <- s[ok,]
+  ok <- complete.cases(data_frame)
+  c_cases <- data_frame[ok,]
   
   # initialize ID, nobs
   ID <- numeric()
