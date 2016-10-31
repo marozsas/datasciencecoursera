@@ -23,7 +23,7 @@ rankhospital <- function(state, outcome, num= "best") {
   else if (num=="best")
       hrank <- 1
   else if (num=="worst")
-      hrank= num
+      hrank <- NA
   else
     stop ("invalid num")
   
@@ -35,7 +35,7 @@ rankhospital <- function(state, outcome, num= "best") {
   idx <- complete.cases(sub_df)
   sub_df <- sub_df[idx, ]
   
-  # sort (aka order) the data frame by outcome column (column 3).
+  # sort (aka order) the data frame by state (column 2); outcome (column 3) and hospital name (column 1).
   idx <- order(sub_df[2], sub_df[3], sub_df[1])
   sub_df <- sub_df[idx, ]
   
@@ -45,7 +45,7 @@ rankhospital <- function(state, outcome, num= "best") {
     stop ("invalid state")
   } 
   # get the hospital name with the selected rank
-  if (num=="worst")
+  if (is.na (hrank))
     by_state[nrow(by_state), 1]
   else
     by_state[hrank, 1]
