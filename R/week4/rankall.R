@@ -14,7 +14,7 @@
 #
 # MAR, november/2016
 
-rankall <- function(outcome, num= "best") {
+rankall <- function(outcome, num= "best", showrank=FALSE) {
   
   # Test the outcome argument
   outcomes <- c("heart attack"=11, "heart failure"=17, "pneumonia"=23)
@@ -30,7 +30,7 @@ rankall <- function(outcome, num= "best") {
   else if (num=="best")
     hrank <- 1
   else if (num=="worst")
-    hrank <- NA
+    hrank <- NA # it is a no operation, just to fill the condition.
   else
     stop ("invalid num")
   
@@ -52,15 +52,20 @@ rankall <- function(outcome, num= "best") {
   # initialize hospital and state that will build an output data frame later
   hospital <- character()
   state <- character()
+  crank <- numeric()
   
   # loop over each state
   for (st in names(df_by_state)) {
     # if num is worst, evaluate hrank as the last row of set
-    if (is.na (hrank))
+    if (num=="worst")
       hrank <- nrow(df_by_state[[st]])
     # get the hospital and state at specified rank (aka num)
     hospital <- c (hospital, df_by_state[[st]][hrank, 1])
     state <- c(state, df_by_state[[st]][hrank, 2])
+    crank <- c(crank, df_by_state[[st]][hrank, 3])
   }
-  data.frame (hospital, state)
+  if (showrank)
+    data.frame (hospital, state, crank)
+  else
+    data.frame (hospital, state)
 }

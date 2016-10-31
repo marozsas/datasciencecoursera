@@ -16,7 +16,7 @@
 #
 # MAR, november/2016
 
-best <- function(state, outcome) {
+best <- function(state, outcome, showrank = TRUE) {
   
   # Test the outcome argument
   outcomes <- c("heart attack"=11, "heart failure"=17, "pneumonia"=23)
@@ -41,5 +41,8 @@ best <- function(state, outcome) {
     stop ("invalid state")
   } 
   # get the hospital name with the smallest outcome of a state
-  by_state[1, 1]
+  if (showrank==TRUE)
+    by_state[1,]
+  else
+    by_state[1, 1]
 }

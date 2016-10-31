@@ -21,9 +21,9 @@ rankhospital <- function(state, outcome, num= "best") {
   if (typeof (num)=="double")
     hrank <- num
   else if (num=="best")
-      hrank <- 1
+    hrank <- 1
   else if (num=="worst")
-      hrank <- NA
+    hrank <- NA # it is a no operation, just to fill the condition.
   else
     stop ("invalid num")
   
@@ -45,9 +45,8 @@ rankhospital <- function(state, outcome, num= "best") {
     stop ("invalid state")
   } 
   # get the hospital name with the selected rank
-  if (is.na (hrank))
+  if (num=="worst")
     by_state[nrow(by_state), 1]
   else
     by_state[hrank, 1]
-  
 }
